@@ -1,0 +1,85 @@
+﻿@model DC2247A5.Models.ActorWithShowInfoViewModel
+
+@{
+    ViewBag.Title = @Html.DisplayFor(model => model.Name);
+}
+@{
+    var userAccount = new DC2247A5.Controllers.RequestUser(User as System.Security.Claims.ClaimsPrincipal);
+}
+
+<h2>@ViewBag.Title</h2>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.AlternateName)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.AlternateName)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BirthDate)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BirthDate)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Height)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Height)
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+
+        <dd class="col-sm-10">
+            <img src="@Html.DisplayFor(model => model.ImageUrl)" alt="Image" style="max-width: 150px; max-height: 150px;" />
+        </dd>
+
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Executive)
+        </dt>
+
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Executive)
+        </dd>
+
+        <hr />
+        <dt class="col-sm-2">
+            Appeared in<br />
+            <span class="badge rounded-pill text-bg-secondary">@Html.DisplayFor(model => model.Shows.Count) shows</span>
+        </dt>
+
+        <dd class="col-sm-10">
+            @foreach (var show in Model.Shows)
+            {
+                <span>@show.Name</span><br />
+            }
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @if (userAccount.HasRoleClaim("Coordinator"))
+    {
+        <span>@Html.ActionLink("Add New Show", "AddShow", new { id = Model.Id }) | </span>
+    }
+
+    @Html.ActionLink("Back to List", "Index")
+</p>
