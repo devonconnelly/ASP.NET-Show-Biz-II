@@ -31,6 +31,8 @@ namespace DC2247A5.Models
         public DbSet<Actor> Actors { get; set; }
         public DbSet<Show> Shows { get; set; }
         public DbSet<Episode> Episodes { get; set; }
+        public DbSet<ActorMediaItem> ActorMediaItems { get; set; }
+
 
 
 

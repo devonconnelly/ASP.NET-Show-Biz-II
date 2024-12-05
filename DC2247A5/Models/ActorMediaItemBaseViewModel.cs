@@ -6,9 +6,11 @@ using System.Web;
 
 namespace DC2247A5.Models
 {
-    public class ShowBaseViewModel : ShowAddViewModel
+    public class ActorMediaItemBaseViewModel
     {
         [Key]
         public int Id { get; set; }
+        public string Caption { get; set; }
+        public string ContentType { get; set; }
     }
 }

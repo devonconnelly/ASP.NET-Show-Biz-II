@@ -33,6 +33,9 @@ namespace DC2247A5.Models
         [StringLength(250)]
         public string Executive { get; set; }
 
+        [DataType(DataType.MultilineText)]
+        public string Biography { get; set; }
+
         //public ICollection<Show> Shows { get; set; }
     }
 }

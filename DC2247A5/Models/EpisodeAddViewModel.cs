@@ -38,6 +38,12 @@ namespace DC2247A5.Models
         [StringLength(250)]
         public string Clerk { get; set; }
 
+        [DataType(DataType.MultilineText)]
+        public string Premise { get; set; }
+
+        [DataType(DataType.Upload)]
+        public HttpPostedFileBase VideoUpload { get; set; }
+
         public int ShowId { get; set; }
     }
 }

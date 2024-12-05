@@ -30,6 +30,9 @@ namespace DC2247A5.Models
         [StringLength(250)]
         public string Coordinator { get; set; }
 
+        [DataType(DataType.MultilineText)]
+        public string Premise { get; set; }
+
         public List<int> ActorIds { get; set; }
     }
 }
