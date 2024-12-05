@@ -35,7 +35,7 @@ namespace DC2247A5.Data
         [StringLength(250)]
         public string Coordinator { get; set; }
 
-        // Navigation properties
+        public string Premise { get; set; }
         public ICollection<Actor> Actors { get; set; } 
         public ICollection<Episode> Episodes { get; set; } 
     }

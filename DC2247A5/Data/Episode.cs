@@ -34,6 +34,12 @@ namespace DC2247A5.Data
         [StringLength(250)]
         public string Clerk { get; set; }
 
+        public string Premise { get; set; }
+
+        public string VideoContentType { get; set; }
+
+        public byte[] Video { get; set; }
+
         public int ShowId { get; set; }
         public Show Show { get; set; }
     }

@@ -6,11 +6,12 @@ using System.Web;
 
 namespace DC2247A5.Data
 {
-    public class RoleClaim
+    public class ActorMediaItem
     {
+        [Key]
         public int Id { get; set; }
-
-        [Required, StringLength(100)]
-        public string Name { get; set; }
+        public string Caption { get; set; }
+        public string ContentType { get; set; }
+        public byte[] Content { get; set; }
     }
 }

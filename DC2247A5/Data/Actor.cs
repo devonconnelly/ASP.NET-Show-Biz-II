@@ -10,6 +10,7 @@ namespace DC2247A5.Data
         public Actor()
         {
             Shows = new List<Show>();
+            MediaItems = new List<ActorMediaItem>();
         }
 
         [Key]
@@ -34,6 +35,10 @@ namespace DC2247A5.Data
         [StringLength(250)]
         public string Executive { get; set; }
 
+        public string Biography { get; set; }
+
         public ICollection<Show> Shows { get; set; }
+
+        public ICollection<ActorMediaItem> MediaItems { get; set; } 
     }
 }
