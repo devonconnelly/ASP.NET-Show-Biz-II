@@ -4,19 +4,19 @@
 
 <main>
     <section class="row" aria-labelledby="appTitle">
-        <h1 id="appTitle">Assignment #5 - Devon Connelly</h1>
-        <p class="lead">ASP.NET application able to manage actors, TV series, and episodes.</p>
-        <p><a href="https://dconnelly-wa-web524-a5-dshcgud0aha4d9f8.eastus2-01.azurewebsites.net/" class="btn btn-primary">Assignment 5 on Azure</a></p>
+        <h1 id="appTitle">Assignment #6 - Devon Connelly</h1>
+        <p class="lead">ASP.NET application able to upload media files and manage actors, TV series, and episodes.</p>
+        <p><a href="https://dconnelly-wa-web524-a6-evc9dkbqfahpd9fs.eastus2-01.azurewebsites.net" class="btn btn-primary">Assignment 6 on Azure</a></p>
     </section>
 
     <div class="row mt-5">
         <section class="col-md-6" aria-labelledby="whatILearned">
             <h2 id="whatILearned">I learned ...</h2>
-            <p>more about entity relationships in ASP.NET MVC, such as associating Episodes with Shows and Shows with Actors while ensuring the correct data flow between view models, controllers, and the database. I was required to create Data objects and populate a database using these data objects through load functions which is something I haven't had to do in the past for these assignments also dealing with authorization and access, only allowing certain users with certain roles to have accessibility to certain parts of the views and certain functions.</p>
+            <p>How to handle adding and displaying non text media types in an asp.net environment, including managing file streams and storing its contents in a database. I also learned how to add support for rich text using CKEditor to add multi line text inputs.</p>
         </section>
         <section class="col-md-6" aria-labelledby="whatIStruggledWith">
             <h2 id="whatIStruggledWith">I struggled with ...</h2>
-            <p>handling all the relationships between all the data and their models towards other models and their data, since for this assignment we used significantly mroe models, controllers and views than for previous assignments. This also made it easy for me to accidentally overlook certain things like assigning certain attributes correctly in our add functions, like for example explicitely assigning the executive or coordinator when creating a new actor or show, which when missed lead to problems later on in development. </p>
+            <p>How to properly add these non text media types, specifically the content upload functionality, particularly with reading the file stream and converting it to a byte array ensuring the file was correctly processed and stored. I also had some difficulty with handling all the new data and models as at one point I was setback due to an error in naming attributes causing there to be issues with the mapping to the different view models. </p>
         </section>
     </div>
 </main>

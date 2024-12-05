@@ -3,6 +3,10 @@
 @{
     ViewBag.Title = @Html.DisplayFor(model => model.ShowName);
 }
+@{
+    var videoModel = new DC2247A5.Controllers.Manager().EpisodeVideoGetById(Model.Id);
+}
+
 
 <h2>@ViewBag.Title</h2>
 
@@ -72,6 +76,33 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Clerk)
         </dd>
+
+        @if (!string.IsNullOrWhiteSpace(Model.Premise))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Premise)
+            </dt>
+            <dd class="col-sm-10">
+                <div class="card card-body bg-light">
+                    @Html.Raw(Model.Premise)
+                </div>
+            </dd>
+        }
+
+        @if (!string.IsNullOrWhiteSpace(videoModel.VideoContentType))
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.VideoUrl)
+            </dt>
+            <dd class="col-sm-10">
+                <div>
+                    <video controls class="w-100">
+                        <source src="@Url.Action("Video", "Episodes", new { id = Model.Id })" type="@videoModel.VideoContentType" />
+                        Your browser does not support the video tag.
+                    </video>
+                </div>
+            </dd>
+        }
     </dl>
 </div>
 <p>

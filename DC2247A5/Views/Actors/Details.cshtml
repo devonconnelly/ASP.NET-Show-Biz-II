@@ -73,9 +73,95 @@
             }
         </dd>
 
+        @if (!string.IsNullOrWhiteSpace(Model.Biography))
+        {
+            <hr />
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Biography)
+            </dt>
+            <dd class="col-sm-10">
+                <div class="card card-body bg-light">
+                    @Html.Raw(Model.Biography)
+                </div>
+            </dd>
+        }
+
+        <hr />
+        @if (Model.Photos != null && Model.Photos.Any())
+        {
+            <dt class="col-sm-2">Photos</dt>
+            <dd class="col-sm-10">
+                @foreach (var photo in Model.Photos.OrderBy(p => p.Caption))
+                {
+                    <div>
+                        <img src="@Url.Action("MediaItemDownload", "Actors", new { id = photo.Id })" alt="Photo" style="max-width: 200px; margin: 5px;" />
+                        <small><br />@photo.Caption</small>
+                    </div>
+                }
+            </dd>
+            <hr />
+        }
+
+        @if (Model.Documents != null && Model.Documents.Any())
+        {
+            <dt class="col-sm-2">Documents</dt>
+            <dd class="col-sm-10">
+                @foreach (var doc in Model.Documents.OrderBy(d => d.Caption))
+                {
+                    <div>
+                        <a href="@Url.Action("MediaItemDownload", "Actors", new { id = doc.Id })" download="@doc.Caption + " .pdf"">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/PDF_file_icon.svg/1200px-PDF_file_icon.svg.png" alt="PDF Icon" style="max-width: 72px; margin-bottom: 5px;" /> <small><br />@doc.Caption</small>
+                        </a>
+                    </div>
+                }
+            </dd>
+            <hr />
+        }
+
+        @if (Model.AudioClips != null && Model.AudioClips.Any())
+        {
+            <dt class="col-sm-2">Audio Clips</dt>
+            <dd class="col-sm-10">
+                @foreach (var audio in Model.AudioClips.OrderBy(a => a.Caption))
+                {
+                    <div>
+                        <audio controls>
+                            <source src="@Url.Action("MediaItemDownload", "Actors", new { id = audio.Id })" type="@audio.ContentType" />
+                            Your browser does not support the audio element.
+                        </audio>
+                        <small><br />@audio.Caption</small>
+                    </div>
+                }
+            </dd>
+            <hr />
+        }
+
+        @if (Model.VideoClips != null && Model.VideoClips.Any())
+        {
+            <dt class="col-sm-2">Video Clips</dt>
+            <dd class="col-sm-10">
+                @foreach (var video in Model.VideoClips.OrderBy(v => v.Caption))
+                {
+                    <div>
+                        <video controls style="max-width: 400px;">
+                            <source src="@Url.Action("MediaItemDownload", "Actors", new { id = video.Id })" type="@video.ContentType" />
+                            Your browser does not support the video tag.
+                        </video>
+                        <small><br />@video.Caption</small>
+                    </div>
+                }
+            </dd>
+            <hr />
+        }
+
+
     </dl>
 </div>
 <p>
+    @if (userAccount.HasRoleClaim("Executive"))
+    {
+        <span>@Html.ActionLink("Add Media Item", "AddMediaItem", new { id = Model.Id }) | </span>
+    }
     @if (userAccount.HasRoleClaim("Coordinator"))
     {
         <span>@Html.ActionLink("Add New Show", "AddShow", new { id = Model.Id }) | </span>
