@@ -7,13 +7,13 @@ namespace DC2247A5.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class descriptivenameformigration : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(descriptivenameformigration));
         
         string IMigrationMetadata.Id
         {
-            get { return "202411252029251_InitialCreate"; }
+            get { return "202412032109023_descriptive-name-for-migration"; }
         }
         
         string IMigrationMetadata.Source

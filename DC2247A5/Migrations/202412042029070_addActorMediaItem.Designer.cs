@@ -7,13 +7,13 @@ namespace DC2247A5.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.5.1")]
-    public sealed partial class InitialCreate : IMigrationMetadata
+    public sealed partial class addActorMediaItem : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(InitialCreate));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(addActorMediaItem));
         
         string IMigrationMetadata.Id
         {
-            get { return "202411252029251_InitialCreate"; }
+            get { return "202412042029070_addActorMediaItem"; }
         }
         
         string IMigrationMetadata.Source
