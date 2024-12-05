@@ -22,7 +22,32 @@ namespace DC2247A5.Controllers
         public ActionResult Details(int? id)
         {
             var obj = m.ActorGetByIdWithShowInfo(id.GetValueOrDefault());
-           
+
+
+            if(obj.MediaItems != null)
+            {
+                obj.Photos = obj.MediaItems
+                .Where(mi => mi.ContentType.StartsWith("image/"))
+                .OrderBy(mi => mi.Caption)
+                .ToList();
+
+                obj.Documents = obj.MediaItems
+                    .Where(mi => mi.ContentType == "application/pdf")
+                    .OrderBy(mi => mi.Caption)
+                    .ToList();
+
+                obj.AudioClips = obj.MediaItems
+                    .Where(mi => mi.ContentType.StartsWith("audio/"))
+                    .OrderBy(mi => mi.Caption)
+                    .ToList();
+
+                obj.VideoClips = obj.MediaItems
+                    .Where(mi => mi.ContentType.StartsWith("video/"))
+                    .OrderBy(mi => mi.Caption)
+                    .ToList();
+            }
+            
+
             if (obj == null)
                 return HttpNotFound();
             else
@@ -39,6 +64,7 @@ namespace DC2247A5.Controllers
         // POST: Actors/Create
         [HttpPost]
         [Authorize(Roles = "Executive")]
+        [ValidateInput(false)]
         public ActionResult Create(ActorAddViewModel newItem)
         {
             try
@@ -80,6 +106,7 @@ namespace DC2247A5.Controllers
         [HttpPost]
         [Authorize(Roles = "Coordinator")]
         [Route("Actors/{id}/AddShow")]
+        [ValidateInput(false)] 
         public ActionResult AddShow(ShowAddViewModel newItem)
         {
             try
@@ -95,6 +122,54 @@ namespace DC2247A5.Controllers
                 return View(newItem);
             }
         }
+
+        [Authorize(Roles = "Executive")]
+        [Route("Actors/{id}/AddMediaItem")]
+        public ActionResult AddMediaItem(int? id)
+        {
+            var actor = m.ActorGetByIdWithShowInfo(id.GetValueOrDefault());
+            if (actor == null) return HttpNotFound();
+
+            var formViewModel = new ActorMediaItemAddFormViewModel
+            {
+                ActorId = actor.Id,
+                ActorName = actor.Name
+            };
+
+            return View(formViewModel);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Executive")]
+        [Route("Actors/{id}/AddMediaItem")]
+        public ActionResult AddMediaItem(ActorMediaItemAddViewModel newItem)
+        {
+            try
+            {
+                var addedItem = m.ActorMediaItemAdd(newItem);
+                if (addedItem == null) 
+                    return View(newItem);
+                else
+                    return RedirectToAction("Details", new { id = newItem.ActorId });
+            }
+            catch
+            {
+                return View(newItem);
+            }
+
+            
+        }
+
+        [Route("Actors/MediaItem/{id}")]
+        public ActionResult MediaItemDownload(int id)
+        {
+            var mediaItem = m.ActorMediaItemGetById(id);
+            if (mediaItem == null) return HttpNotFound();
+
+            return File(mediaItem.Content, mediaItem.ContentType, mediaItem.Caption);
+        }
+
+
 
         // GET: Actors/Edit/5
         public ActionResult Edit(int id)

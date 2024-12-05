@@ -3,6 +3,7 @@ using DC2247A5.Data;
 using DC2247A5.Models;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Security.Claims;
 using System.Web;
@@ -71,6 +72,9 @@ namespace DC2247A5.Controllers
                 cfg.CreateMap<Actor, ActorWithShowInfoViewModel>()
                 .ForMember(dest => dest.Height, opt => opt.MapFrom(src => src.Height == 0 ? (double?)null : src.Height));
 
+                cfg.CreateMap<ActorWithShowInfoViewModel, Actor>();
+
+
                 cfg.CreateMap<ActorAddViewModel, Actor>();
 
                 cfg.CreateMap<Show, ShowBaseViewModel>();
@@ -92,6 +96,16 @@ namespace DC2247A5.Controllers
                 cfg.CreateMap<EpisodeAddViewModel, Episode>();
 
                 cfg.CreateMap<EpisodeBaseViewModel, EpisodeAddFormViewModel>();
+
+                cfg.CreateMap<ActorMediaItem, ActorMediaItemBaseViewModel>();
+
+                cfg.CreateMap<ActorMediaItemAddViewModel, ActorMediaItem>();
+
+                cfg.CreateMap<ActorMediaItemBaseViewModel, ActorMediaItemAddFormViewModel>();
+
+                cfg.CreateMap<ActorMediaItemBaseViewModel, ActorMediaItemWithContentViewModel>();
+
+                cfg.CreateMap<ActorMediaItem, ActorMediaItemWithContentViewModel>();
             });
 
             mapper = config.CreateMapper();
@@ -142,9 +156,10 @@ namespace DC2247A5.Controllers
         {
             var obj = ds.Actors
                 .Include("Shows")
+                .Include("MediaItems")
                 .FirstOrDefault(a => a.Id == id);
 
-            return obj == null ? null : mapper.Map<ActorWithShowInfoViewModel>(obj);
+            return obj == null ? null : mapper.Map<Actor, ActorWithShowInfoViewModel>(obj);
         }
 
         public ShowBaseViewModel ShowAdd(ShowAddViewModel newShow)
@@ -200,6 +215,16 @@ namespace DC2247A5.Controllers
             addedItem.Show = show;
 
             ds.Episodes.Add(addedItem);
+
+            if (newEpisode.VideoUpload != null && newEpisode.VideoUpload.ContentLength > 0)
+            {
+                byte[] videoBytes = new byte[newEpisode.VideoUpload.ContentLength];
+                newEpisode.VideoUpload.InputStream.Read(videoBytes, 0, newEpisode.VideoUpload.ContentLength);
+
+                addedItem.Video = videoBytes;
+                addedItem.VideoContentType = newEpisode.VideoUpload.ContentType;
+            }
+
             ds.SaveChanges();
 
             return addedItem == null ? null : mapper.Map<Episode, EpisodeBaseViewModel>(addedItem);
@@ -224,6 +249,44 @@ namespace DC2247A5.Controllers
 
             return obj == null ? null : mapper.Map<EpisodeWithShowNameViewModel>(obj);
         }
+
+        public EpisodeVideoViewModel EpisodeVideoGetById(int id)
+        {
+            var episode = ds.Episodes.FirstOrDefault(e => e.Id == id); ;
+            return new EpisodeVideoViewModel
+            {
+                VideoContentType = episode.VideoContentType,
+                Video = episode.Video
+            };
+        }
+
+        public ActorMediaItemBaseViewModel ActorMediaItemAdd(ActorMediaItemAddViewModel newItem)
+        {
+            var actor = ds.Actors.Find(newItem.ActorId);
+            if (actor == null) return null;
+
+            var mediaItem = new ActorMediaItem
+            {
+                Caption = newItem.Caption,
+                ContentType = newItem.ContentUpload.ContentType,
+                Content = new byte[newItem.ContentUpload.ContentLength]
+            };
+
+            newItem.ContentUpload.InputStream.Read(mediaItem.Content, 0, newItem.ContentUpload.ContentLength);
+            actor.MediaItems.Add(mediaItem);
+
+            ds.SaveChanges();
+
+            return mapper.Map<ActorMediaItem, ActorMediaItemBaseViewModel>(mediaItem);
+        }
+
+        public ActorMediaItemWithContentViewModel ActorMediaItemGetById(int id)
+        {
+            var item = ds.ActorMediaItems.Find(id);
+            return item == null ? null : mapper.Map<ActorMediaItem, ActorMediaItemWithContentViewModel>(item);
+        }
+
+
 
 
         // *** Add your methods ABOVE this line **

@@ -27,6 +27,18 @@ namespace DC2247A5.Controllers
                 return View(obj);
         }
 
+        [Route("Episodes/Video/{id}")]
+        public ActionResult Video(int id)
+        {
+            var video = m.EpisodeVideoGetById(id);
+
+            if (video == null || video.Video == null)
+                return HttpNotFound();
+
+            return File(video.Video, video.VideoContentType);
+        }
+
+
         // GET: Episodes/Create
         public ActionResult Create()
         {

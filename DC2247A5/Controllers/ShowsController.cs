@@ -52,6 +52,7 @@ namespace DC2247A5.Controllers
         [HttpPost]
         [Authorize(Roles = "Clerk")]
         [Route("Actors/{id}/AddEpisode")]
+        [ValidateInput(false)]
         public ActionResult AddEpisode(EpisodeAddViewModel newItem)
         {
             try
